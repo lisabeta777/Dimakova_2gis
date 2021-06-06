@@ -67,6 +67,7 @@ public class TestByCountryCode {
     //Проверка условия: country_code не может принимать на вход значения, отличные от: ru, kg, kz, cz
     public void getByCountryCode_5() throws IOException {
         Response retrofitPlace = placesGet.getByCountryCode("eng").execute().body();
+        assert retrofitPlace != null;
         String errorMessage = retrofitPlace.getError().getMessage();
         Assertions.assertEquals("Параметр 'country_code' может быть одним из следующих значений: ru, kg, kz, cz", errorMessage);
     }
@@ -75,6 +76,7 @@ public class TestByCountryCode {
     //Проверка условия: country_code не может принимать на вход значения, отличные от: ru, kg, kz, cz
     public void getByCountryCode_6() throws IOException {
         Response retrofitPlace = placesGet.getByCountryCode("ua").execute().body();
+        assert retrofitPlace != null;
         String errorMessage = retrofitPlace.getError().getMessage();
         Assertions.assertEquals("Параметр 'country_code' может быть одним из следующих значений: ru, kg, kz, cz", errorMessage);
     }
@@ -83,6 +85,7 @@ public class TestByCountryCode {
     //Проверка условия: по умолчанию отображаются регионы из всех стран
     public void getByCountryCode_7() throws IOException {
         Response retrofitPlaceAll = placesGet.getByCountryCode(null).execute().body();
+        assert retrofitPlaceAll != null;
         long size = retrofitPlaceAll.getItems().size();
 
         ArrayList<String> countryAll = new ArrayList<>();
@@ -91,7 +94,7 @@ public class TestByCountryCode {
             countryAll.add(code);
         }
         boolean b = countryAll.contains("ru") & countryAll.contains("kz") & countryAll.contains("kg") & countryAll.contains("cz");
-        Assertions.assertEquals(true, b);
+        Assertions.assertTrue(b);
     }
 
 }

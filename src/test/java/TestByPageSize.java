@@ -52,10 +52,22 @@ public class TestByPageSize {
     }
 
     @Test
-    //Значение параметра: по умолчанию
+    //Значение параметра: по умолчанию - 15
     public void getByPageSize_5() throws IOException {
-        Response retrofitPlace = placesGet.getByPageSize(null).execute().body();
+
         Response retrofitPlace_expected = placesGet.getByPageSize("15").execute().body();
-        Assertions.assertEquals(retrofitPlace_expected, retrofitPlace);
+        Response retrofitPlace = placesGet.getByPageSize(null).execute().body();
+
+        assert retrofitPlace != null;
+        long size = retrofitPlace.getItems().size();
+        assert retrofitPlace_expected != null;
+        long size_expected = retrofitPlace_expected.getItems().size();
+
+        for (int i = 0; i < size; i++) {
+            int result_expected = retrofitPlace_expected.getItems().get(i).getId();
+            int result = retrofitPlace.getItems().get(i).getId();
+            Assertions.assertEquals(result_expected, result);
+        }
+        Assertions.assertEquals(size_expected, size);
     }
 }

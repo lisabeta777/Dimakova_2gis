@@ -9,8 +9,6 @@ import retrofit2.http.Query;
 import java.util.List;
 
 public interface PlacesGet {
-    @GET("/1.0/regions")
-    Call<Response> get();
 
     @GET("/1.0/regions")
     Call<Response> getByQ(@Query("q") String q);

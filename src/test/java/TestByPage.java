@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TestByPage {
 
@@ -37,11 +38,22 @@ public class TestByPage {
     }
 
     @Test
-    //Значение по умолчанию
+    //Значение по умолчанию = 1
     public void getByPage_4() throws IOException {
-        Response retrofitPlace = placesGet.getByPage(null).execute().body();
         Response retrofitPlace_expected = placesGet.getByPage("1").execute().body();
-        Assertions.assertEquals(retrofitPlace_expected, retrofitPlace);
+        Response retrofitPlace = placesGet.getByPage(null).execute().body();
+
+        assert retrofitPlace != null;
+        long size = retrofitPlace.getItems().size();
+        assert retrofitPlace_expected != null;
+        long size_expected = retrofitPlace_expected.getItems().size();
+
+            for (int i = 0; i < size; i++) {
+                int result_expected = retrofitPlace_expected.getItems().get(i).getId();
+                int result = retrofitPlace.getItems().get(i).getId();
+                Assertions.assertEquals(result_expected, result);
+            }
+        Assertions.assertEquals(size_expected, size);
     }
 
 }
